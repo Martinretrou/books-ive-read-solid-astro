@@ -1,0 +1,17 @@
+---
+const symbol = "ETH";
+const name = "Ethereum";
+const price = 3169.66;
+const rank = 2;
+const date = new Date("2015-07-30");
+const description =
+  'Ethereum is a <a href="https://www.coingecko.com/en?category_id=29&view=market">smart contract platform</a> that enables developers to build tokens and decentralized applications (dapps). ETH is the native currency for the Ethereum platform and also works as the transaction fees to miners on the Ethereum network.';
+---
+
+<h1>{name} ({symbol})</h1>
+
+<p><b>Price: </b>${price}</p>
+<p><b>Market cap rank: </b>{rank}</p>
+<p><b>Date: </b>{date.toString()}</p>
+
+<p>{description}</p>

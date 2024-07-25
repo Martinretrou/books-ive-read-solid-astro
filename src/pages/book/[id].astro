@@ -1,0 +1,27 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import slugify from "slugify";
+
+import { db } from "../../firebase/client";
+import type { IBook } from "../../types/book";
+import { Card } from "../../components/Card";
+
+const { id } = Astro.params;
+
+const ref = db.ref(`books/`);
+const snapshot = await ref.once(`value`);
+const books =
+  ((await Object.values(snapshot.val())) as IBook[]) || ([] as IBook[]);
+
+const book = books.find((book) => slugify(book.title.toLowerCase()) === id);
+---
+
+<Layout title="Books I've read">
+  <!-- <Hero /> -->
+  <main class='flex min-h-full'>
+    <div class='fixed left-[20vw] flex items-center h-screen top-0 z-20'>
+      <img class='w-[20vw]' src={book?.image.url} alt={book?.image.alt} />
+    </div>
+  </main>
+</Layout>

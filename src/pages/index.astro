@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { Grid } from "../components/Grid";
+
+import { db } from "../firebase/client";
+import type { IBook } from "../types/book";
+
+const ref = db.ref(`books/`);
+const snapshot = await ref.once(`value`);
+const books =
+  ((await Object.values(snapshot.val())) as IBook[]) || ([] as IBook[]);
+
+const years = [
+  ...new Set(
+    [...books.filter((book) => book?.readIn)].map((book) => String(book.readIn))
+  ),
+]
+  .sort((a, b) => (a > b ? 1 : a < b ? -1 : 0))
+  .reverse();
+
+const getBooksByYear = (books: IBook[], years: string[]) => {
+  if (books && years) {
+    const temp: any[] = [];
+    // eslint-disable-next-line array-callback-return
+    years?.map((year: string) => {
+      let nextBooks = books.filter(
+        (book) => String(book.readIn) === String(year)
+      );
+      temp.push(nextBooks);
+    });
+    return temp.map((y) =>
+      y
+        .sort((a: any, b: any) =>
+          a.finishedDate > b.finishedDate
+            ? 1
+            : a.finishedDate < b.finishedDate
+              ? -1
+              : 0
+        )
+        .reverse()
+    );
+  }
+  return [];
+};
+
+const sorted = getBooksByYear(books, years);
+
+const booksByYear = sorted.map((data, index) => ({
+  books: data as IBook[],
+  year: Number(years[index]),
+}));
+---
+
+<Layout title="Books I've read">
+  <!-- <Hero /> -->
+  <main class='flex min-h-full'>
+    <div class='col-span-8'>
+      {
+        booksByYear.map((item) => (
+          <Grid
+            client:only
+            variation='warm-gradient'
+            books={item.books}
+            year={item.year}
+          />
+        ))
+      }
+    </div>
+  </main>
+</Layout>
