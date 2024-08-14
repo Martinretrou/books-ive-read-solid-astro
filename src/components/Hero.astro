@@ -1,0 +1,27 @@
+---
+import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
+import Icon from "./Icon.astro";
+
+interface Props {
+  earliestYear?: string;
+}
+
+const earliestYear = Astro.props.earliestYear;
+---
+
+<div class='pt-[8vw] px-[4vw] flex items-center'>
+  <h1 class='text-[120px] leading-[105px] flex -ml-3 -mt-1'>
+    <p class='flex flex-col'>
+      <span class='outlined'>Books</span>
+      <span>I've</span>
+      <span class='outlined'>been</span>
+      <span>reading</span>
+    </p>
+  </h1>
+  <span class='text-3xl flex ml-[17vw] mt-1'>
+    <p>{new Date().getFullYear()}</p>
+
+    <Icon class='w-6 mx-4 pb-2 opacity-70 mt-1' icon={faArrowRight} />
+    <p>{earliestYear}</p>
+  </span>
+</div>

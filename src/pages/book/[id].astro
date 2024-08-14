@@ -5,7 +5,10 @@ import slugify from "slugify";
 
 import { db } from "../../firebase/client";
 import type { IBook } from "../../types/book";
-import { Card } from "../../components/Card";
+import { Show } from "solid-js";
+
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import Icon from "../../components/Icon.astro";
 
 const { id } = Astro.params;
 
@@ -15,13 +18,45 @@ const books =
   ((await Object.values(snapshot.val())) as IBook[]) || ([] as IBook[]);
 
 const book = books.find((book) => slugify(book.title.toLowerCase()) === id);
+
+const variations = ["red", "blue", "green", "yellow"];
+const gradientClass =
+  "gradient-base fixed top-0 left-0 " +
+  `${variations[Math.floor(Math.random() * variations.length)]}-gradient`;
 ---
 
 <Layout title="Books I've read">
-  <!-- <Hero /> -->
-  <main class='flex min-h-full'>
-    <div class='fixed left-[20vw] flex items-center h-screen top-0 z-20'>
-      <img class='w-[20vw]' src={book?.image.url} alt={book?.image.alt} />
+  <main class='max-h-screen overflow-hidden'>
+    <a class='fixed flex items-center top-[8vw] left-[4vw] group' href='/'>
+      <Icon class='w-6 mr-4 pb-2' icon={faArrowLeft} />
+      <p
+        class='pb-2 -mb-1 border-b-2 border-transparent group-hover:border-black'
+      >
+        Back to main listing
+      </p>
+    </a>
+
+    <div class={gradientClass}></div>
+    <div class='min-h-full grid grid-cols-2 px-[20vw] gap-[4vw]'>
+      <div class='flex items-center h-screen top-0 z-20'>
+        <img class='w-[20vw]' src={book?.image.url} alt={book?.image.alt} />
+      </div>
+      <div class='h-screen justify-center flex flex-col top-0'>
+        <div class='flex flex-col mb-4'>
+          <p class='text-4xl font-bold'>{book?.title}</p>
+          <p class='text-gray-500 text-2xl'>{book?.author}</p>
+        </div>
+        <Show when={!book?.review}>
+          <p class='text-white bg-black py-2 px-4 h-fit'>
+            Currently reading this book
+          </p>
+        </Show>
+        <Show when={!!book?.review}>
+          <p class='text-white bg-black py-2 px-4 h-fit'>
+            Rating: {book?.review}/5{" "}
+          </p>
+        </Show>
+      </div>
     </div>
   </main>
 </Layout>

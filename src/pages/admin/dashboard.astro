@@ -1,0 +1,141 @@
+---
+import Layout from "../../layouts/Layout.astro";
+
+import { db, getUser } from "../../firebase/client";
+import type { IBook } from "../../types/book";
+import { getAuthorsFromBooks } from "../../helpers/book";
+
+const user = getUser();
+
+const ref = db.ref(`books/`);
+const snapshot = await ref.once(`value`);
+const books =
+  ((await Object.values(snapshot.val())) as IBook[]) || ([] as IBook[]);
+
+const years = [
+  ...new Set(
+    [...books.filter((book) => book?.readIn)].map((book) => String(book.readIn))
+  ),
+]
+  .sort((a, b) => (a > b ? 1 : a < b ? -1 : 0))
+  .reverse();
+
+const getBooksByYear = (books: IBook[], years: string[]) => {
+  if (books && years) {
+    const temp: any[] = [];
+    // eslint-disable-next-line array-callback-return
+    years?.map((year: string) => {
+      let nextBooks = books.filter(
+        (book) => String(book.readIn) === String(year)
+      );
+      temp.push(nextBooks);
+    });
+    return temp.map((y) =>
+      y
+        .sort((a: any, b: any) =>
+          a.finishedDate > b.finishedDate
+            ? 1
+            : a.finishedDate < b.finishedDate
+              ? -1
+              : 0
+        )
+        .reverse()
+    );
+  }
+  return [];
+};
+
+const allAuthors = getAuthorsFromBooks(books);
+
+const booksByAuthors = allAuthors
+  .map((author) => books?.filter((book) => book.author === author))
+  .sort((a, b) => b.length - a.length);
+
+const sorted = getBooksByYear(books, years);
+const booksByYear = sorted.map((data, index) => ({
+  books: data as IBook[],
+  year: Number(years[index]),
+}));
+---
+
+<Layout title='Welcome to Astro.'>
+  <main>
+    <div class='gradient'></div>
+    <div class='absolute top-[8vw] left-[4vw] flex flex-col'>
+      <h1 class='text-4xl font-bold'>Dashboard</h1>
+      <p class='mt-3'>Logged as {user?.email}</p>
+    </div>
+
+    <div class='grid grid-cols-3 px-[4vw] gap-[4vw] pt-[16vw]'>
+      <div class='flex flex-col col-span-2'>
+        <h3 class='bg-black text-white w-fit px-4 py-1 text-2xl'>Stats</h3>
+        <div class='grid grid-cols-2'>
+          <div class='p-4 border border-black bg-white'>
+            <p class='text-xl mb-2'>
+              <b>Books in the database</b>: {books.length}
+            </p>
+            <p class='text-xl mb-2'>
+              <b>Authors in the database</b>: {booksByAuthors.length}
+            </p>
+            <p class='text-xl mb-2'>
+              <b>Years in the database</b>: {booksByYear.length}
+            </p>
+          </div>
+          <div class='p-4 border border-black bg-white'>
+            <p class='font-bold text-xl mb-2'>Books read by year</p>
+            {
+              booksByYear.map((i) => (
+                <p>
+                  <b>{i.year}</b>: {i.books?.length}
+                </p>
+              ))
+            }
+          </div>
+          <div class='p-4 border border-black bg-white'>
+            <p class='font-bold text-xl mb-2'>Top 10 most read author</p>
+            {
+              booksByAuthors.slice(0, 10).map((i, index) => (
+                <p>
+                  {index + 1} - <b>{i[0].author}</b>: {i.length}
+                </p>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+      <div class='flex flex-col'>
+        <h3 class='bg-black text-white w-fit px-4 py-1 text-2xl'>Actions</h3>
+        <div class='p-4 border border-black bg-white'>
+          <a href='/admin/add-book'
+            ><button class='p-4 bg-black text-white hover:bg-slate-800'
+              >+ Add Book</button
+            ></a
+          >
+          <a href='/admin/books'
+            ><button class='p-4 bg-black text-white hover:bg-slate-800'
+              >See books listing</button
+            ></a
+          >
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .gradient {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10;
+    margin: auto;
+    padding: 1rem;
+    font-size: 20px;
+    line-height: 1.6;
+    filter: contrast(200%) brightness(1500%);
+    background: linear-gradient(0deg, rgb(0, 0, 0), rgba(142, 142, 235, 0)),
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='9.37' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+</style>

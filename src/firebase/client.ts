@@ -23,14 +23,19 @@ if (!firebase.apps.length) {
   
   const signInWithEmailAndPassword = async (email: string, password: string) => {
     try {
-      await auth.signInWithEmailAndPassword(email, password);
+      return await auth.signInWithEmailAndPassword(email, password);
     } catch (err) {
       console.error(err);
+      return err
     }
   };
+
+  const getUser = () => {
+    return auth.currentUser
+  }
   
   const logout = () => {
     auth.signOut();
   };
-  export { auth, firebase, db, storage, signInWithEmailAndPassword, logout };
+  export { auth, firebase, db, storage, signInWithEmailAndPassword, getUser, logout };
   

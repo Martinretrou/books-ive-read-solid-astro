@@ -19,9 +19,9 @@ export const Card: Component<BookProps> = (props) => {
       href={`/book/${slugify(local.book.title.toLowerCase())}`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      class='items-center grid grid-cols-23 '
+      class='items-center grid grid-cols-23 cursor-pointer group'
     >
-      <div class='flex flex-col col-start-[12] col-span-12 cursor-crosshair'>
+      <div class='flex flex-col col-start-[12] col-span-12'>
         <div class='flex items-center justify-between'>
           <div class='flex text-left items-center'>
             <p class='text-gray-600'>{local.index + 1} - </p>

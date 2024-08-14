@@ -4,6 +4,7 @@ import { Grid } from "../components/Grid";
 
 import { db } from "../firebase/client";
 import type { IBook } from "../types/book";
+import Hero from "../components/Hero.astro";
 
 const ref = db.ref(`books/`);
 const snapshot = await ref.once(`value`);
@@ -49,16 +50,27 @@ const booksByYear = sorted.map((data, index) => ({
   books: data as IBook[],
   year: Number(years[index]),
 }));
+
+console.log({ booksByYear: booksByYear.map((i) => i.year) });
+
+const earliestYear = years[years.length - 1];
+
+const variations = ["yellow", "blue", "green"];
+
+const gradientClass =
+  "gradient-base top-0 left-0 " +
+  `${variations[Math.floor(Math.random() * variations.length)]}-gradient`;
 ---
 
 <Layout title="Books I've read">
-  <!-- <Hero /> -->
-  <main class='flex min-h-full'>
+  <div class={gradientClass}></div>
+  <main class='flex flex-col min-h-full'>
+    <Hero earliestYear={earliestYear} />
     <div class='col-span-8'>
       {
         booksByYear.map((item) => (
           <Grid
-            client:only
+            client:visible
             variation='warm-gradient'
             books={item.books}
             year={item.year}

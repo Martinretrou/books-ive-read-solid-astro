@@ -1,14 +1,14 @@
-import gsap from "gsap";
-import { type Component, createSignal, For, splitProps } from "solid-js";
+import { type Component, createSignal, splitProps } from "solid-js";
 
 type GridProps = {
   text: string;
+  className?: string;
 };
 
 const maxCounter = 12;
 
 export const TextScambler: Component<GridProps> = (props) => {
-  const [local, rest] = splitProps(props, ["text"]);
+  const [local, className] = splitProps(props, ["text", "className"]);
   const [isHovered, setIsHovered] = createSignal(false);
   const [scrambledText, setScrambledText] = createSignal(local.text);
 
@@ -56,7 +56,7 @@ export const TextScambler: Component<GridProps> = (props) => {
     <div
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
-      class='p-2 hover:backdrop-blur-xl w-fit'
+      class={"px-2 py-1 hover:bg-black hover:text-white w-fit" + className}
     >
       <p class='text-[26px] font-bold'>{scrambledText()}</p>
     </div>

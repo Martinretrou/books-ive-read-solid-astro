@@ -65,27 +65,16 @@ const { title } = Astro.props;
   }
 
   .gradient-base {
-    position: absolute;
+    position: fixed;
     z-index: -10;
     left: 0;
     top: 0;
-    width: 300vw;
-    transform: scale(2);
-    height: 100%;
+    width: 150vw;
+    transform: scale(3.5);
+    height: 100vh;
     background-size: 400%;
   }
-
-  /* .red-gradient {
-    filter: contrast(450%) brightness(500%);
-    background: conic-gradient(
-        from 0deg at 116% 7%,
-        rgba(67, 1, 1, 1),
-        rgba(0, 0, 0, 0)
-      ),
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    animation: filterGradient 15s infinite;
-  } */
-
+  /* 
   .red-gradient {
     filter: contrast(450%) brightness(500%);
     background: conic-gradient(
@@ -94,8 +83,8 @@ const { title } = Astro.props;
         rgba(0, 0, 0, 0)
       ),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    animation: filterGradient 15s infinite;
-  }
+    animation: filterGradient 12s infinite;
+  } */
 
   .blue-gradient {
     filter: contrast(540%) brightness(300%);
@@ -105,11 +94,11 @@ const { title } = Astro.props;
         rgba(0, 0, 0, 0)
       ),
       url("data:image/svg+xml,%3Csvg viewBox='0 0 1 1' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-    animation: filterGradient 15s infinite;
+    animation: filterGradient 12s infinite;
   }
 
   .green-gradient {
-    animation: filterGradient 15s infinite;
+    animation: filterGradient 12s infinite;
     filter: contrast(540%) brightness(300%);
     background: conic-gradient(
         from 0deg at 116% 7%,
@@ -120,7 +109,7 @@ const { title } = Astro.props;
   }
 
   .yellow-gradient {
-    animation: filterGradient 15s infinite;
+    animation: filterGradient 12s infinite;
     filter: contrast(550%) brightness(1500%);
     background: conic-gradient(
         from 0deg at 116% 7%,
@@ -148,6 +137,12 @@ const { title } = Astro.props;
     }
   }
 
+  /* @keyframes filterGradient {
+    50% {
+      filter: contrast(200%) brightness(1200%);
+    }
+  } */
+
   body {
     background: #333;
     background-image: linear-gradient(
@@ -171,5 +166,10 @@ const { title } = Astro.props;
   }
   * {
     font-family: "JetBrainsMono", monospace, sans-serif;
+  }
+
+  .outlined {
+    -webkit-text-fill-color: transparent;
+    -webkit-text-stroke-width: 1px;
   }
 </style>
