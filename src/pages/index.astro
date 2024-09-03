@@ -1,10 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { Grid } from "../components/Grid";
 
 import { db } from "../firebase/client";
 import type { IBook } from "../types/book";
 import Hero from "../components/Hero.astro";
+import { YearsList } from "../components/YearsList";
 
 const ref = db.ref(`books/`);
 const snapshot = await ref.once(`value`);
@@ -51,11 +51,9 @@ const booksByYear = sorted.map((data, index) => ({
   year: Number(years[index]),
 }));
 
-console.log({ booksByYear: booksByYear.map((i) => i.year) });
-
 const earliestYear = years[years.length - 1];
 
-const variations = ["yellow", "blue", "green"];
+const variations = ["blue", "green"];
 
 const gradientClass =
   "gradient-base top-0 left-0 " +
@@ -64,19 +62,10 @@ const gradientClass =
 
 <Layout title="Books I've read">
   <div class={gradientClass}></div>
-  <main class='flex flex-col min-h-full'>
+  <main class='flex flex-col min-h-full pb-[60vh]'>
     <Hero earliestYear={earliestYear} />
     <div class='col-span-8'>
-      {
-        booksByYear.map((item) => (
-          <Grid
-            client:visible
-            variation='warm-gradient'
-            books={item.books}
-            year={item.year}
-          />
-        ))
-      }
+      <YearsList client:only='solid-js' booksByYear={booksByYear} />
     </div>
   </main>
 </Layout>

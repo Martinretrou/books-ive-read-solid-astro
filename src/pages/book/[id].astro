@@ -9,6 +9,7 @@ import { Show } from "solid-js";
 
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import Icon from "../../components/Icon.astro";
+import { ItemShifter } from "../../components/ItemShifter";
 
 const { id } = Astro.params;
 
@@ -25,8 +26,8 @@ const gradientClass =
   `${variations[Math.floor(Math.random() * variations.length)]}-gradient`;
 ---
 
-<Layout title="Books I've read">
-  <main class='max-h-screen overflow-hidden'>
+<Layout title={`${book?.title} | Books I've read`}>
+  <main class='max-h-screen'>
     <a class='fixed flex items-center top-[8vw] left-[4vw] group' href='/'>
       <Icon class='w-6 mr-4 pb-2' icon={faArrowLeft} />
       <p
@@ -38,8 +39,13 @@ const gradientClass =
 
     <div class={gradientClass}></div>
     <div class='min-h-full grid grid-cols-2 px-[20vw] gap-[4vw]'>
-      <div class='flex items-center h-screen top-0 z-20'>
-        <img class='w-[20vw]' src={book?.image.url} alt={book?.image.alt} />
+      <div class='relative flex items-center h-screen top-0 z-20'>
+        <ItemShifter
+          client:only='solid-js'
+          className='w-[20vw] z-10'
+          image={book?.image}
+        />
+        <img src={book?.image?.url} class='w-[20vw] absolute z-0 blur-2xl' />
       </div>
       <div class='h-screen justify-center flex flex-col top-0'>
         <div class='flex flex-col mb-4'>

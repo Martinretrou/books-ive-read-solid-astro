@@ -5,10 +5,8 @@ type GridProps = {
   className?: string;
 };
 
-const maxCounter = 12;
-
 export const TextScambler: Component<GridProps> = (props) => {
-  const [local, className] = splitProps(props, ["text", "className"]);
+  const [local] = splitProps(props, ["text", "className"]);
   const [isHovered, setIsHovered] = createSignal(false);
   const [scrambledText, setScrambledText] = createSignal(local.text);
 
@@ -56,9 +54,12 @@ export const TextScambler: Component<GridProps> = (props) => {
     <div
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
-      class={"px-2 py-1 hover:bg-black hover:text-white w-fit" + className}
+      class={
+        "-ml-2 px-2 py-1 hover:bg-black hover:text-white w-fit" +
+        local.className
+      }
     >
-      <p class='text-[26px] font-bold'>{scrambledText()}</p>
+      <p class='text-[24px]  font-bold'>{scrambledText()}</p>
     </div>
   );
 };

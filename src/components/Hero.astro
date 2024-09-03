@@ -1,6 +1,7 @@
 ---
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import Icon from "./Icon.astro";
+import { ItemShifter } from "./ItemShifter";
 
 interface Props {
   earliestYear?: string;
@@ -9,16 +10,16 @@ interface Props {
 const earliestYear = Astro.props.earliestYear;
 ---
 
-<div class='pt-[8vw] px-[4vw] flex items-center'>
+<div class='pt-[16vw] px-[4vw] ml-[44vw] flex flex-col pb-[50vh]'>
   <h1 class='text-[120px] leading-[105px] flex -ml-3 -mt-1'>
     <p class='flex flex-col'>
-      <span class='outlined'>Books</span>
-      <span>I've</span>
-      <span class='outlined'>been</span>
-      <span>reading</span>
+      <ItemShifter client:only text='Books' />
+      <span class='outlined'>I've</span>
+      <ItemShifter client:only text='been' />
+      <span class='outlined'>reading</span>
     </p>
   </h1>
-  <span class='text-3xl flex ml-[17vw] mt-1'>
+  <span class='text-3xl flex mt-12'>
     <p>{new Date().getFullYear()}</p>
 
     <Icon class='w-6 mx-4 pb-2 opacity-70 mt-1' icon={faArrowRight} />
