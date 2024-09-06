@@ -26,8 +26,6 @@ export const ItemShifter: Component<ItemShifterProps> = (props) => {
     createSignal<{ text: string; font: string }[]>();
   const [containerClass, setContainerClass] = createSignal<string>();
 
-  let imgRef: HTMLImageElement;
-
   const fontClasses = [
     "sans",
     "pixel",
@@ -74,7 +72,6 @@ export const ItemShifter: Component<ItemShifterProps> = (props) => {
         ? 6
         : local.text.length
       : 6;
-    console.log({ iterations });
 
     const performIteration = () => {
       if (i <= iterations) {
@@ -88,7 +85,6 @@ export const ItemShifter: Component<ItemShifterProps> = (props) => {
         }
 
         setContainerClass(getRandomItemFromArray(translateClasses));
-
         i++;
 
         if (i <= iterations) {
@@ -119,12 +115,7 @@ export const ItemShifter: Component<ItemShifterProps> = (props) => {
       </Show>
       <Show when={local.image}>
         <div class={`flex ${containerClass()} ${local.className}`}>
-          <img
-            ref={(r) => (imgRef = r)}
-            class='w-full'
-            src={local.image?.url}
-            alt={local.image?.alt}
-          />
+          <img class='w-full' src={local.image?.url} alt={local.image?.alt} />
         </div>
       </Show>
     </>

@@ -7,6 +7,10 @@ import { getAuthorsFromBooks } from "../../helpers/book";
 
 const user = getUser();
 
+if (!user) {
+  return Astro.redirect("/admin/auth");
+}
+
 const ref = db.ref(`books/`);
 const snapshot = await ref.once(`value`);
 const books =

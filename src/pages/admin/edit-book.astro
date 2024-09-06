@@ -29,7 +29,7 @@ const ratingOptions = range(0, 5, 1).map(String).reverse();
 const authorsOptions = getAuthorsFromBooks(books);
 ---
 
-<Layout title='Add a book'>
+<Layout title='Edit a book'>
   <main>
     <a
       class='flex items-center pt-[8vw] pl-[4vw] group'
@@ -44,7 +44,7 @@ const authorsOptions = getAuthorsFromBooks(books);
     </a>
     <div class='gradient'></div>
     <div class='pt-[6vw] px-[4vw]'>
-      <h1 class='text-2xl bg-black text-white w-fit px-4 py-2'>Add a book</h1>
+      <h1 class='text-2xl bg-black text-white w-fit px-4 py-2'>Edit a book</h1>
       <BookForm
         client:only='solid-js'
         authors={authorsOptions}

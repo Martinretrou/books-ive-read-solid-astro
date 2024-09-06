@@ -83,7 +83,7 @@ export const Year: Component<YearProps> = (props) => {
       class={`relative z-10 pb-48 flex flex-col w-screen h-fit mx-auto gap-5 p-[4vw] year-${local.year}`}
     >
       <Show when={local.isActive}>
-        <div class='text-[50px] font-bold z-10 sticky top-[49vh] pointer-events-none'>
+        <div class='text-[50px] font-bold z-10 fixed top-[4vh] lg:sticky lg:top-[49vh] pointer-events-none'>
           <ItemShifter text={String(local.year)} />
         </div>
       </Show>

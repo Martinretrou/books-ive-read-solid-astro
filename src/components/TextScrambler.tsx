@@ -54,12 +54,9 @@ export const TextScambler: Component<GridProps> = (props) => {
     <div
       onMouseEnter={handleHover}
       onMouseLeave={handleMouseLeave}
-      class={
-        "-ml-2 px-2 py-1 hover:bg-black hover:text-white w-fit" +
-        local.className
-      }
+      class={"py-1 hover:bg-black hover:text-white w-fit" + local.className}
     >
-      <p class='text-[24px]  font-bold'>{scrambledText()}</p>
+      <p class='font-bold'>{scrambledText()}</p>
     </div>
   );
 };

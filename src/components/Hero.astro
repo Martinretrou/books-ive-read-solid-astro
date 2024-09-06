@@ -10,8 +10,12 @@ interface Props {
 const earliestYear = Astro.props.earliestYear;
 ---
 
-<div class='pt-[16vw] px-[4vw] ml-[44vw] flex flex-col pb-[50vh]'>
-  <h1 class='text-[120px] leading-[105px] flex -ml-3 -mt-1'>
+<div
+  class='h-screen px-[12vw] lg:px-[4vw] lg:ml-[44vw] flex justify-center flex-col'
+>
+  <h1
+    class='text-[60px] leading-[55px] lg:text-[120px] lg:leading-[105px] flex lg:-ml-3 -mt-1'
+  >
     <p class='flex flex-col'>
       <ItemShifter client:only text='Books' />
       <span class='outlined'>I've</span>
@@ -19,10 +23,10 @@ const earliestYear = Astro.props.earliestYear;
       <span class='outlined'>reading</span>
     </p>
   </h1>
-  <span class='text-3xl flex mt-12'>
+  <span class='text-xl lg:text-3xl flex mt-12'>
     <p>{new Date().getFullYear()}</p>
 
-    <Icon class='w-6 mx-4 pb-2 opacity-70 mt-1' icon={faArrowRight} />
+    <Icon class='w-4 lg:w-6 mx-4 pb-2 opacity-70 mt-1' icon={faArrowRight} />
     <p>{earliestYear}</p>
   </span>
 </div>
