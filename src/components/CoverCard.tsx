@@ -35,7 +35,7 @@ export const CoverCard = (props: CoverCardProps) => {
         class='group relative grid w-[20vw] rounded-md transition-transform ease-out hover:[transform:rotateX(var(--x-rotation))_rotateY(var(--y-rotation))_scale(1.05)]'
       >
         <img class='w-full z-10' src={local.img.url} alt={local.img.alt} />
-        <img class='absolute z-0 blur-2xl' src={local.img.url} />
+        <img class='absolute z-0 blur-2xl' src={local.img.url} alt='' />
       </div>
     </div>
   );

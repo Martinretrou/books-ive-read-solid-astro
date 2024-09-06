@@ -35,6 +35,7 @@ export const Card: Component<BookProps> = (props) => {
             <img
               class='md:hidden absolute flex w-[50vw] max-w-[260px] top-0 z-0 blur-2xl'
               src={local.book.image.url}
+              alt=''
             />
           </Show>
         </div>
